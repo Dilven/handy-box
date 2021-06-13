@@ -118,7 +118,7 @@ module.exports = require("styled-jsx/server");;
 var __webpack_require__ = require("../webpack-runtime.js");
 __webpack_require__.C(exports);
 var __webpack_exec__ = function(moduleId) { return __webpack_require__(__webpack_require__.s = moduleId); }
-var __webpack_exports__ = __webpack_require__.X(0, ["vendors-node_modules_babel_runtime_helpers_extends_js-node_modules_babel_runtime_helpers_inte-f89ba9","vendors-node_modules_next_dist_pages__document_js"], function() { return __webpack_exec__("./node_modules/next/dist/pages/_document.js"); });
+var __webpack_exports__ = __webpack_require__.X(0, ["vendors-node_modules_next_dist_client_request-idle-callback_js-node_modules_next_node_modules-ad777a","vendors-node_modules_next_dist_pages__document_js"], function() { return __webpack_exec__("./node_modules/next/dist/pages/_document.js"); });
 module.exports = __webpack_exports__;
 
 })();

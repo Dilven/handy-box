@@ -1,8 +1,18 @@
 import Head from 'next/head'
 import Image from 'next/image'
+import { useState } from 'react'
+import { useQuery } from 'react-query'
+import { InternalApi } from '../services/internal-api'
 import styles from '../styles/Home.module.css'
 
+const favouritePlaces = [
+  'Wrocław',
+  'Wieluń'
+]
+
 export default function Home() {
+  const { data } = useQuery('weather', InternalApi.getWeather);
+  const [ savedPlaces ] = useState(favouritePlaces);
   return (
     <div className={styles.container}>
       <Head>
@@ -22,6 +32,20 @@ export default function Home() {
         <div className={styles.grid}>
           <div className={styles.card}>
             <h2>Weather</h2>
+            <p>Favourit place: {savedPlaces.map(place => <button>{place}</button>)}</p>
+            <br />
+            <input type='text'></input>
+            {data && (
+              <div>
+                <p>temp: {data.main.temp}</p>
+                <p>temp_max: {data.main.temp_max}</p>
+                <p>temp_min: {data.main.temp_min}</p>
+                <p>feels_like: {data.main.feels_like}</p>
+                <p>humidity: {data.main.humidity}</p>
+                <p>pressure: {data.main.pressure}</p>
+              </div>
+            )
+            }
           </div>
           <div className={styles.card}>
             <h2>Weather</h2>

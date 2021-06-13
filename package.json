@@ -8,9 +8,13 @@
     "start": "next start"
   },
   "dependencies": {
+    "@hapi/boom": "^9.1.2",
+    "axios": "^0.21.1",
     "next": "10.2.3",
     "react": "17.0.2",
-    "react-dom": "17.0.2"
+    "react-dom": "17.0.2",
+    "react-query": "^3.17.0",
+    "zod": "^3.2.0"
   },
   "devDependencies": {
     "@types/react": "17.0.11",
