@@ -7,8 +7,8 @@ import { WeatherSchema } from '../../../schemas/weather';
 const getHandler = async (req: NextApiRequest, res: NextApiResponse) => {
   const { data } = await axios.get(`https://api.openweathermap.org/data/2.5/weather?q=wroclaw&units=metric&appid=${process.env.WEATHER_API_KEY}`)
   try {
-    const weather = WeatherSchema.parse(data);
-    res.status(200).json(JSON.stringify(weather));
+    // const weather = WeatherSchema.parse(data);
+    res.status(200).json(JSON.stringify(data));
   } catch (e) {
     // logger.info(`Bad search request: ${query}`);
     console.log(e)
