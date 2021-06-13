@@ -1,18 +1,41 @@
 import Head from 'next/head'
 import Image from 'next/image'
 import { useState } from 'react'
-import { useQuery } from 'react-query'
+import { useMutation, useQuery, useQueryClient } from 'react-query'
 import { InternalApi } from '../services/internal-api'
 import styles from '../styles/Home.module.css'
+import { Input, Button } from 'antd';
+import {
+  HeartOutlined,
+} from '@ant-design/icons';
+
+const { Search } = Input;
 
 const favouritePlaces = [
-  'Wrocław',
-  'Wieluń'
+  'Wroclaw',
+  'Wielun'
 ]
 
 export default function Home() {
-  const { data } = useQuery('weather', InternalApi.getWeather);
+  const defaultPlace = favouritePlaces[0]
+  const { data } = useQuery(`weather`, () => InternalApi.getWeather(defaultPlace));
   const [ savedPlaces ] = useState(favouritePlaces);
+  const queryClient = useQueryClient();
+  const { mutate } = useMutation(InternalApi.getWeather, {
+    onSuccess: (data) => {
+      console.log('DEBUGGING:  ~ file: index.tsx ~ line 26 ~ Home ~ data', data);
+      queryClient.setQueryData('weather', data);
+    }
+  })
+  const [place, setPlace] = useState(defaultPlace)
+
+  const onSearch = (value: string) => {
+    mutate(value);
+  }
+  const onClickFav = (place: string) => () => {
+    setPlace(place)
+    mutate(place);
+  }
   return (
     <div className={styles.container}>
       <Head>
@@ -32,9 +55,12 @@ export default function Home() {
         <div className={styles.grid}>
           <div className={styles.card}>
             <h2>Weather</h2>
-            <p>Favourit place: {savedPlaces.map(place => <button>{place}</button>)}</p>
+            <p>Saved places: </p>
+            <ul>
+              {savedPlaces.map(place => <li><Button icon={<HeartOutlined />} onClick={onClickFav(place)} name={place}>{place}</Button></li>)}
+            </ul>
             <br />
-            <input type='text'></input>
+            <Search placeholder="input search text" onSearch={onSearch} enterButton value={place} onChange={(e) => setPlace(e.target.value)}/>
             {data && (
               <div>
                 <p>temp: {data.main.temp}</p>
