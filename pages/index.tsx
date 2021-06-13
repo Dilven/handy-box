@@ -17,7 +17,7 @@ const favouritePlaces = [
   'Wielun'
 ]
 
-const canvasStyles = {
+const canvasStyles: any = {
   position: 'fixed',
   pointerEvents: 'none',
   width: '100%',
