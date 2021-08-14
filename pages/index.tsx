@@ -1,17 +1,10 @@
 import Head from 'next/head'
 import Image from 'next/image'
 import { useState } from 'react'
-import { useMutation, useQuery, useQueryClient } from 'react-query'
-import { InternalApi } from '../services/internal-api'
 import styles from '../styles/Home.module.css'
-import { Input, Button } from 'antd';
 import ReactCanvasConfetti from 'react-canvas-confetti'
-import {
-  HeartOutlined,
-} from '@ant-design/icons';
-import { useSavedPlaces, useSavedPlacesActions } from '../providers/SavedPlaces'
+import { WeatherCard } from '../components/weather/WeatherCard'
 
-const { Search } = Input;
 
 const canvasStyles: any = {
   position: 'fixed',
@@ -23,31 +16,7 @@ const canvasStyles: any = {
 }
 
 export default function Home() {
-  const { items: savedPlaces } = useSavedPlaces();
-  const savedPlacesItems = Object.values(savedPlaces).map(item => item.place);
-  const savedPlacesActions = useSavedPlacesActions();
-
-  const defaultPlace = savedPlacesItems[0] || 'Wroclaw'
-  const { data } = useQuery(`weather`, () => InternalApi.getWeather(defaultPlace));
-
-  const queryClient = useQueryClient();
-  const { mutate } = useMutation(InternalApi.getWeather, {
-    onSuccess: (data) => {
-      queryClient.setQueryData('weather', data);
-    }
-  })
   const [fire, setFire] = useState(false);
-
-  const [place, setPlace] = useState(defaultPlace)
-
-  const onSearch = (value: string) => {
-    mutate(value);
-  }
-  const onClickFav = (place: string) => () => {
-    setPlace(place)
-    mutate(place);
-  }
-
   return (
     <div className={styles.container}>
       <Head>
@@ -68,34 +37,13 @@ export default function Home() {
 
         <div className={styles.grid}>
           <div className={styles.card}>
-            <h2>Weather</h2>
-            <p>Saved places: </p>
-            <ul>
-              {savedPlacesItems.map(place => <li><Button icon={<HeartOutlined />} onClick={onClickFav(place)} name={place}>{place}</Button></li>)}
-            </ul>
-            <br />
-            <Button onClick={() => savedPlacesActions.addItem({ id: place, place })}>Add to saved places</Button>
-            <Search placeholder="input search text" onSearch={onSearch} enterButton value={place} onChange={(e) => setPlace(e.target.value)}/>
-            {data && (
-              <div>
-                <p>temp: {data.main.temp}</p>
-                <p>temp_max: {data.main.temp_max}</p>
-                <p>temp_min: {data.main.temp_min}</p>
-                <p>feels_like: {data.main.feels_like}</p>
-                <p>humidity: {data.main.humidity}</p>
-                <p>pressure: {data.main.pressure}</p>
-              </div>
-            )
-            }
+            <WeatherCard />
           </div>
           <div className={styles.card}>
-            <h2>Weather</h2>
+            <h2>Reminder</h2>
           </div>
           <div className={styles.card}>
-            <h2>Weather</h2>
-          </div>
-          <div className={styles.card}>
-            <h2>Weather</h2>
+            <h2>Car</h2>
           </div>
         </div>
       </main>
