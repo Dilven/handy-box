@@ -5,13 +5,16 @@ import {
   QueryClientProvider,
 } from 'react-query'
 import { defaultOptions } from '../config/cache';
+import { SavedPlacesProvider } from '../providers/SavedPlaces';
 
 const queryClient = new QueryClient({ defaultOptions });
 
 function MyApp({ Component, pageProps }: AppProps) {
   return (
     <QueryClientProvider client={queryClient}>
-      <Component {...pageProps} />
+      <SavedPlacesProvider>
+        <Component {...pageProps} />
+      </SavedPlacesProvider>
     </QueryClientProvider>
   )
 }
