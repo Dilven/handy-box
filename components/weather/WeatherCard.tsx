@@ -51,6 +51,11 @@ export const WeatherCard = () => {
       {
         data && (
           <>
+           <img
+              src={`http://openweathermap.org/img/w/${data.weather[0].icon}.png`}
+              alt="weather status icon"
+              className="weather-icon"
+            />
             <p>description: {data.weather[0].description}</p>
             <p>temp: {data.main.temp}</p>
             <p>temp_max: {data.main.temp_max}</p>
